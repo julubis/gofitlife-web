@@ -1,0 +1,45 @@
+@tailwind base;
+@tailwind components;
+
+.btn {
+  @apply px-5 py-2.5 rounded-lg text-sm;
+}
+.btn-primary {
+  @apply bg-emerald-400 hover:bg-emerald-500;
+}
+
+@tailwind utilities;
+
+nav li > a.active {
+  color: #34d399;
+}
+
+.carousel {
+  animation: 12s infinite carousel;
+}
+.carousel-color {
+  animation: 12s infinite carousel-color;
+}
+
+@keyframes carousel {
+  33% {
+    left: 0%;
+  }
+  66% {
+    left: -100%;
+  }
+  100% {
+    left: -200%;
+  }
+}
+@keyframes carousel-color {
+  33% {
+    fill: #34d399;
+  }
+  66% {
+    fill: #fb923c;
+  }
+  100% {
+    fill: #60a5fa;
+  }
+}
