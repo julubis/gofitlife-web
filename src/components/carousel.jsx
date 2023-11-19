@@ -1,6 +1,6 @@
-import carouselImg1 from '../assets/carousel-image-1.png';
-import carouselImg2 from '../assets/carousel-image-2.png';
-import carouselImg3 from '../assets/carousel-image-3.png';
+import carouselImg1 from '../assets/carousel-image-1.webp';
+import carouselImg2 from '../assets/carousel-image-2.webp';
+import carouselImg3 from '../assets/carousel-image-3.webp';
 
 function Carousel() {
   return (
@@ -13,17 +13,17 @@ function Carousel() {
           <div className="w-full h-80 relative">
             <h1 className="my-4 text-5xl font-bold max-w-[29rem]">Temukan resep masakan <span className="text-emerald-400">sehat dan lezat</span></h1>
             <p className="font-normal text-2xl text-gray-600 max-w-[35rem]">Tersedia kategori makanan untuk sarapan, makan siang, dan makan malam</p>
-            <img src={carouselImg1} alt="image" className="absolute top-8 left-auto right-0 scale-[85%]"/>
+            <img src={carouselImg1} alt="image" className="absolute w-[615px] h-[400px] top-8 left-auto right-0 scale-[85%]"/>
           </div>
           <div className="w-full h-80 relative">
             <h1 className="my-4 text-5xl font-bold max-w-[29rem]">Hitung kebutuhan asupan <span className="text-orange-400">harian Anda</span></h1>
             <p className="font-normal text-2xl text-gray-600 max-w-[35rem]">Membantu menghitung kalori harian Anda dan mencatat makanan yang dikonsumsi</p>
-            <img src={carouselImg2} alt="image" className="absolute top-8 left-auto right-0 scale-[85%]"/>
+            <img src={carouselImg2} alt="image" className="absolute w-[502px] h-[600px] top-8 left-auto right-0 scale-[85%]"/>
           </div>
           <div className="w-full h-80 relative">
             <h1 className="my-4 text-5xl font-bold max-w-[29rem]">Analisa aktivitas olahraga Anda untuk <span className="text-blue-400">mencapai target</span></h1>
             <p className="font-normal text-2xl text-gray-600 max-w-[35rem]">Hitung kalori yang telah terbakar dari aktivitas yang Anda lakukan</p>
-            <img src={carouselImg3} alt="image" className="absolute top-8 left-auto right-0 scale-[85%]"/>
+            <img src={carouselImg3} alt="image" className="absolute w-[421px] h-[630px] top-8 left-auto right-0 scale-[85%]"/>
           </div>
         </div>
       </div>
