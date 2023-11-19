@@ -19,7 +19,7 @@ function Recipe() {
         <p className="breadcrum-text">Makanan</p>
       </div>
       <div className="search-box w-full flex justify-center">
-        <input id="input-search" className="input-field" type="text" placeholder="Search food">
+        <input id="input-search" className="input-field" type="text" placeholder="Search food"/>
       </div>
       <div className="grid-container grid mt-1 w-full">
         <div className="card-container text-center flex w-full flex-wrap gap-1rem"></div>
@@ -28,11 +28,11 @@ function Recipe() {
       <form className="filter padding-1rem br-.5rem border h-fit-content" id="form-filter">
         <h3>Menyaring berdasarkan kategori</h3>
         <div className="form-control ">
-          <input type="radio" name="category" id="all" value="all" checked>
+          <input type="radio" name="category" id="all" value="all" checked/>
             <label for="all">Semua</label>
         </div>
         <div className="form-control">
-          <input type="radio" name="category" value="breakfast" id="breakfast">
+          <input type="radio" name="category" value="breakfast" id="breakfast/>
             <label for="breakfast">Sarapan</label>
         </div>
         <div className="form-control">
@@ -40,11 +40,11 @@ function Recipe() {
             <label for="lunch">Makan Siang</label>
         </div>
         <div className="form-control">
-          <input type="radio" name="category" value="dinner" id="dinner">
+          <input type="radio" name="category" value="dinner" id="dinner"/>
             <label for="dinner">Makan Malam</label>
         </div>
         <div className="form-control">
-          <input type="radio" name="category" value="snack" id="snack">
+          <input type="radio" name="category" value="snack" id="snack"/>
             <label for="snack">Cemilan</label>
         </div>
         <button type="submit" className="btn w-256px h-400px pl-20px pr-20px pt-10px">Menerapkan</button>
