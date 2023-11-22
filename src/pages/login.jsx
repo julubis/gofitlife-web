@@ -1,5 +1,32 @@
+import axios from "axios";
+import { useState } from "react";
+import { Link, Navigate, redirect } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { setToken } from "../data/auth";
+
+
 function Login() {
-  document.title = 'GoFitLife | Login';
+  const dispacth = useDispatch()
+  const [loading, setLoading] = useState(false)
+  const username = useSelector(state => state.auth.name);
+  if (username) return <Navigate to="/"/>
+  
+  document.title = 'GoFitLife | Masuk';
+  const submit = async(e) => {
+    setLoading(true);
+
+    try {
+      e.preventDefault();
+      const { email, password } = Object.fromEntries(new FormData(e.currentTarget));
+      const response = await axios.post('/auth/login', { email, password });
+      dispacth(setToken(response.data.data.token))
+    } catch(e) {
+      if (e.response.status === 401) return alert('email atau password salah')
+      alert('Network error')
+    } finally {
+      setLoading(false);
+    }
+  }
 
   return (
     <main className="flex">
@@ -7,29 +34,29 @@ function Login() {
         <img src="assets/Eating healthy food-amico.svg" alt=""/>
       </section>
       <section className="w-full min-h-screen pt-28 px-[5.5%]">
-        <form className="text-center shadow rounded-lg w-fit min-w-sm p-10 mx-auto">
-          <h2 className="text-medium text-lg">Welcome</h2>
-          <p className="text-normal text-sm text-gray-500">Welcome back! Please enter your details</p>
-          <div className="form-control">
-            <label htmlFor="email-input" className="text-medium text-5">Email</label>
+        <form className="text-center shadow border border-gray-200 rounded-2xl w-fit min-w-sm p-10 mx-auto" onSubmit={(e) => submit(e)}>
+          <h2 className="text-medium text-lg">Selamat Datang</h2>
+          <p className="text-normal text-sm text-gray-500 mb-8">Welcome back! Please enter your details</p>
+          <div className="flex flex-col text-start mb-2">
+            <label htmlFor="email-input" className="text-medium text-sm">Email</label>
             <div className="relative">
-              <i className="fa fa-envelope"></i>
-              <input type="email" name="email" id="email-input" className="p-2.5 rounded-lg text-sm border-emerald-400"/>
+              <svg xmlns="http://www.w3.org/2000/svg" id="Outline" viewBox="0 0 24 24" className="w-5 h-5 absolute -translate-y-1/2 top-1/2 ml-3"><path d="M19,1H5A5.006,5.006,0,0,0,0,6V18a5.006,5.006,0,0,0,5,5H19a5.006,5.006,0,0,0,5-5V6A5.006,5.006,0,0,0,19,1ZM5,3H19a3,3,0,0,1,2.78,1.887l-7.658,7.659a3.007,3.007,0,0,1-4.244,0L2.22,4.887A3,3,0,0,1,5,3ZM19,21H5a3,3,0,0,1-3-3V7.5L8.464,13.96a5.007,5.007,0,0,0,7.072,0L22,7.5V18A3,3,0,0,1,19,21Z"/></svg>
+              <input type="email" name="email" id="email-input" className="p-2.5 w-full bg-emerald-50 rounded-lg text-sm border-2 border-emerald-300 hover:bg-white hover:border-emerald-400 focus:outline-none focus:bg-white pl-9" disabled={loading} required/>
             </div>
           </div>
-          <div className="form-control">
-            <label htmlFor="password-input" className="text-medium text-5">Password</label>
+          <div className="flex flex-col text-start mb-2">
+            <label htmlFor="password-input" className="text-medium text-sm">Kata Sandi</label>
             <div className="relative">
-              <i className="fa fa-lock"></i>
-              <input type="password" name="password" id="password-input"/>
+              <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" className="w-5 h-5 absolute -translate-y-1/2 top-1/2 ml-3"><path d="M19,8.424V7A7,7,0,0,0,5,7V8.424A5,5,0,0,0,2,13v6a5.006,5.006,0,0,0,5,5H17a5.006,5.006,0,0,0,5-5V13A5,5,0,0,0,19,8.424ZM7,7A5,5,0,0,1,17,7V8H7ZM20,19a3,3,0,0,1-3,3H7a3,3,0,0,1-3-3V13a3,3,0,0,1,3-3H17a3,3,0,0,1,3,3Z"/><path d="M12,14a1,1,0,0,0-1,1v2a1,1,0,0,0,2,0V15A1,1,0,0,0,12,14Z"/></svg>
+              <input type="password" name="password" id="password-input" className="p-2.5 w-full bg-emerald-50 rounded-lg text-sm border-2 border-emerald-300 hover:bg-white hover:border-emerald-400 focus:outline-none focus:bg-white pl-9" minLength={8} maxLength={15} disabled={loading} required/>
             </div>
           </div>
-          <div className="form-control-2">
-            <input type="checkbox" value="" id="remember"/>
-            <label htmlFor="remember" className="text-medium text-6">Remember me</label>
+          <div className="flex items-center text-start">
+            <input type="checkbox" value="" id="remember" className="w-4 h-4 text-emerald-400 bg-gray-100 border-gray-300 rounded focus:ring-emerald-400 accent-emerald-400" disabled={loading}/>
+            <label htmlFor="remember" className="ms-1 text-sm">Ingatkan saya</label>
           </div>
-          <button type="submit" className="btn text-medium">Sign In</button>
-          <p className="small text-normal text-6">Don&apos;t you have an account? <a href="/#/register">Sign Up</a></p>
+          <button type="submit" className="btn btn-primary w-full mt-16 mb-2" disabled={loading}>{loading ? 'Memuat...' : 'Masuk'}</button>
+          <p className="text-normal text-sm">Belum punya akun? <Link to="/register" className="text-emerald-500 hover:text-emerald-600">Daftar</Link></p>
         </form>
       </section>
     </main>

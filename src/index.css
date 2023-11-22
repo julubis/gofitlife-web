@@ -2,10 +2,10 @@
 @tailwind components;
 
 .btn {
-  @apply px-5 py-2.5 rounded-lg text-sm;
+  @apply px-5 py-2.5 rounded-lg text-sm disabled:opacity-75 disabled:cursor-not-allowed;
 }
 .btn-primary {
-  @apply bg-emerald-400 hover:bg-emerald-500;
+  @apply bg-emerald-400 hover:bg-emerald-500 disabled:hover:bg-emerald-400;
 }
 
 @tailwind utilities;
