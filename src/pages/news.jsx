@@ -15,7 +15,6 @@ async function getNews(title, page=1) {
 }
 
 function News() {
-  document.title = 'GoFitLife | Berita';
   
   const [news, setNews] = useState([]);
   const [loading, setLoading] = useState(true);

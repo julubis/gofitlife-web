@@ -51,7 +51,6 @@ function Card({id, name, image, calorie, time, loading}) {
 // }
 
 function Recipe() {
-  document.title = 'GoFitLife | Resep';
 
   const [recipes, setRecipes] = useState([]);
   const [loading, setLoading] = useState(true);

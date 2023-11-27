@@ -11,7 +11,6 @@ function submit(e) {
 }
 
 function Register() {
-  document.title = 'GoFitLife | Daftar';
 
   return (
     <main className="flex">

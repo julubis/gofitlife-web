@@ -8,11 +8,13 @@ import Login from './pages/login';
 import Register from './pages/register'
 import NotFound from "./pages/404";
 import Navbar from './components/navbar';
+import Profile from './pages/profile';
+import Sidebar from './components/Sidebar';
 
 function App() {
   return (
     <BrowserRouter>
-      <Navbar/>
+      <Sidebar />
       <Routes>
         <Route path='/' element={<Index/>}/>
         <Route path='/login' element={<Login/>}/>
@@ -21,6 +23,7 @@ function App() {
         <Route path='/recipe' element={<Recipe/>}/>
         <Route path='/food' element={<Food/>}/>
         <Route path='/news' element={<News/>}/>
+        <Route path='/profile' element={<Profile/>}/>
         <Route path='*' element={<NotFound/>}/>
       </Routes>
     </BrowserRouter>

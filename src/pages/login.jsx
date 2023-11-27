@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
-import { Link, Navigate, redirect } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { setToken } from "../data/auth";
 
@@ -10,8 +10,6 @@ function Login() {
   const [loading, setLoading] = useState(false)
   const username = useSelector(state => state.auth.name);
   if (username) return <Navigate to="/"/>
-  
-  document.title = 'GoFitLife | Masuk';
   const submit = async(e) => {
     setLoading(true);
 
@@ -34,7 +32,7 @@ function Login() {
         <img src="assets/Eating healthy food-amico.svg" alt=""/>
       </section>
       <section className="w-full min-h-screen pt-28 px-[5.5%]">
-        <form className="text-center shadow border border-gray-200 rounded-2xl w-fit min-w-sm p-10 mx-auto" onSubmit={(e) => submit(e)}>
+        <form className="bg-white text-center shadow border border-gray-200 rounded-2xl w-fit min-w-sm p-10 mx-auto" onSubmit={(e) => submit(e)}>
           <h2 className="text-medium text-lg">Selamat Datang</h2>
           <p className="text-normal text-sm text-gray-500 mb-8">Welcome back! Please enter your details</p>
           <div className="flex flex-col text-start mb-2">
@@ -43,6 +41,7 @@ function Login() {
               <svg xmlns="http://www.w3.org/2000/svg" id="Outline" viewBox="0 0 24 24" className="w-5 h-5 absolute -translate-y-1/2 top-1/2 ml-3"><path d="M19,1H5A5.006,5.006,0,0,0,0,6V18a5.006,5.006,0,0,0,5,5H19a5.006,5.006,0,0,0,5-5V6A5.006,5.006,0,0,0,19,1ZM5,3H19a3,3,0,0,1,2.78,1.887l-7.658,7.659a3.007,3.007,0,0,1-4.244,0L2.22,4.887A3,3,0,0,1,5,3ZM19,21H5a3,3,0,0,1-3-3V7.5L8.464,13.96a5.007,5.007,0,0,0,7.072,0L22,7.5V18A3,3,0,0,1,19,21Z"/></svg>
               <input type="email" name="email" id="email-input" className="p-2.5 w-full bg-emerald-50 rounded-lg text-sm border-2 border-emerald-300 hover:bg-white hover:border-emerald-400 focus:outline-none focus:bg-white pl-9" disabled={loading} required/>
             </div>
+            
           </div>
           <div className="flex flex-col text-start mb-2">
             <label htmlFor="password-input" className="text-medium text-sm">Kata Sandi</label>
