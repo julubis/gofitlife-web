@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { setToken } from "../data/auth";
-
+import ilustration from "../assets/ilustration-0.svg"
 
 function Login() {
   const dispacth = useDispatch()
@@ -28,13 +28,13 @@ function Login() {
 
   return (
     <main className="flex">
-      <section className="hidden w-full min-h-screen pt-28 px-[5.5%] bg-emerald-50 md:flex">
-        <img src="assets/Eating healthy food-amico.svg" alt=""/>
+      <section className="hidden w-full min-h-screen pt-28 px-4 bg-emerald-50 md:flex">
+        <img src={ilustration} alt="" className="w-3/5 mx-auto"/>
       </section>
-      <section className="w-full min-h-screen pt-28 px-[5.5%]">
-        <form className="bg-white text-center shadow border border-gray-200 rounded-2xl w-fit min-w-sm p-10 mx-auto" onSubmit={(e) => submit(e)}>
+      <section className="w-full min-h-screen pt-28 px-4">
+        <form className="bg-white text-center shadow border border-gray-200 rounded-2xl w-full max-w-sm p-8 mx-auto" onSubmit={(e) => submit(e)}>
           <h2 className="text-medium text-lg">Selamat Datang</h2>
-          <p className="text-normal text-sm text-gray-500 mb-8">Welcome back! Please enter your details</p>
+          <p className="text-normal text-sm text-gray-500 mb-8">Silahkan isi data diri Anda</p>
           <div className="flex flex-col text-start mb-2">
             <label htmlFor="email-input" className="text-medium text-sm">Email</label>
             <div className="relative">

@@ -14,21 +14,21 @@ nav li > a.active {
 @tailwind utilities;
 
 .carousel {
-  animation: 12s infinite carousel;
+  animation: carousel 12s ease infinite;
 }
 .carousel-color {
-  animation: 12s infinite carousel-color;
+  animation: carousel-color 12s ease infinite;
 }
 
 @keyframes carousel {
   33% {
-    left: 0%;
+    transform: translateX(0%);
   }
   66% {
-    left: -100%;
+    transform: translateX(-33.33%);
   }
   100% {
-    left: -200%;
+    transform: translateX(-66.66%);
   }
 }
 @keyframes carousel-color {

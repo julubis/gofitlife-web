@@ -1,30 +1,34 @@
+import { lazy, Suspense } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { useSelector } from "react-redux";
+
 import Index from "./pages/index";
-import Home from "./pages/home";
-import Recipe from "./pages/recipe";
-import Food from "./pages/food";
-import News from "./pages/news";
-import Login from './pages/login';
-import Register from './pages/register'
-import NotFound from "./pages/404";
-import Navbar from './components/navbar';
-import Profile from './pages/profile';
-import Sidebar from './components/Sidebar';
+import Navbar from "./components/Sidebar"
+const Home = lazy(() => import('./pages/home'));
+const Recipe = lazy(() => import('./pages/recipe'));
+const Food = lazy(() => import('./pages/food'));
+const News = lazy(() => import('./pages/news'));
+const Login = lazy(() => import('./pages/login'));
+const Register = lazy(() => import('./pages/register'));
+const NotFound = lazy(() => import('./pages/404'));
+const Profile = lazy(() => import('./pages/profile'));
 
 function App() {
+  const user = useSelector(state => state.auth.name);
+
   return (
     <BrowserRouter>
-      <Sidebar />
+      <Navbar user={user} />
       <Routes>
         <Route path='/' element={<Index/>}/>
-        <Route path='/login' element={<Login/>}/>
-        <Route path='/register' element={<Register/>}/>
-        <Route path='/home' element={<Home/>}/>
-        <Route path='/recipe' element={<Recipe/>}/>
-        <Route path='/food' element={<Food/>}/>
-        <Route path='/news' element={<News/>}/>
-        <Route path='/profile' element={<Profile/>}/>
-        <Route path='*' element={<NotFound/>}/>
+        <Route path='/login' element={<Suspense><Login /></Suspense>}/>
+        <Route path='/register' element={<Suspense><Register /></Suspense>}/>
+        <Route path='/home' element={<Suspense><Home /></Suspense>}/>
+        <Route path='/recipe' element={<Suspense><Recipe /></Suspense>}/>
+        <Route path='/food' element={<Suspense><Food /></Suspense>}/>
+        <Route path='/news' element={<Suspense><News /></Suspense>}/>
+        <Route path='/profile' element={<Suspense><Profile /></Suspense>}/>
+        <Route path='*' element={<Suspense><NotFound /></Suspense>}/>
       </Routes>
     </BrowserRouter>
   )

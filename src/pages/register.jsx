@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import ilustration from "../assets/ilustration-1.svg"
 
 function page(num) {
 
@@ -14,13 +15,13 @@ function Register() {
 
   return (
     <main className="flex">
-      <section className="hidden w-full min-h-screen pt-28 px-[5.5%] bg-emerald-50 md:flex">
-        <img src="assets/Eating healthy food-amico.svg" alt=""/>
+      <section className="hidden w-full min-h-screen pt-28 px-4 bg-emerald-50 md:flex">
+      <img src={ilustration} alt="" className="w-3/5 mx-auto"/>
       </section>
-      <section className="w-full min-h-screen pt-28 px-[5.5%]">
-        <form className="text-center shadow border border-gray-200 rounded-2xl w-fit min-w-sm p-10 mx-auto" onSubmit={(e) => submit(e)}>
+      <section className="w-full min-h-screen pt-28 px-4">
+        <form className="text-center shadow border border-gray-200 rounded-2xl w-full max-w-sm p-8 mx-auto" onSubmit={(e) => submit(e)}>
           <h2 className="text-medium text-lg">Selamat Datang</h2>
-          <p className="text-normal text-sm text-gray-500 mb-8">Welcome back! Please enter your details</p>
+          <p className="text-normal text-sm text-gray-500 mb-8">Silahkan isi data diri Anda</p>
           <div className="flex flex-col text-start mb-2">
             <label htmlFor="name-input" className="text-medium text-sm">Nama</label>
             <div className="relative">
