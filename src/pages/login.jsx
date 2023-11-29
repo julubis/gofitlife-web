@@ -8,8 +8,8 @@ import ilustration from "../assets/ilustration-0.svg"
 function Login() {
   const dispacth = useDispatch()
   const [loading, setLoading] = useState(false)
-  const username = useSelector(state => state.auth.name);
-  if (username) return <Navigate to="/"/>
+  const { name } = useSelector(state => state.auth.user);
+  if (name) return <Navigate to="/"/>
   const submit = async(e) => {
     setLoading(true);
 
@@ -31,8 +31,8 @@ function Login() {
       <section className="hidden w-full min-h-screen pt-28 px-4 bg-emerald-50 md:flex">
         <img src={ilustration} alt="" className="w-3/5 mx-auto"/>
       </section>
-      <section className="w-full min-h-screen pt-28 px-4">
-        <form className="bg-white text-center shadow border border-gray-200 rounded-2xl w-full max-w-sm p-8 mx-auto" onSubmit={(e) => submit(e)}>
+      <section className="w-full min-h-screen pt-28 px-4 bg-emerald-50 md:bg-white">
+        <form className="bg-white text-center my-auto shadow border border-gray-200 rounded-2xl w-full max-w-sm p-8 mx-auto" onSubmit={(e) => submit(e)}>
           <h2 className="text-medium text-lg">Selamat Datang</h2>
           <p className="text-normal text-sm text-gray-500 mb-8">Silahkan isi data diri Anda</p>
           <div className="flex flex-col text-start mb-2">

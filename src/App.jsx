@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { useSelector } from "react-redux";
 
 import Index from "./pages/index";
-import Navbar from "./components/Sidebar"
+import Navbar from "./components/Navbar"
 const Home = lazy(() => import('./pages/home'));
 const Recipe = lazy(() => import('./pages/recipe'));
 const Food = lazy(() => import('./pages/food'));
@@ -14,7 +14,7 @@ const NotFound = lazy(() => import('./pages/404'));
 const Profile = lazy(() => import('./pages/profile'));
 
 function App() {
-  const user = useSelector(state => state.auth.name);
+  const user = useSelector(state => state.auth.user);
 
   return (
     <BrowserRouter>

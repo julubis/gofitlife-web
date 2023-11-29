@@ -18,7 +18,7 @@ function Register() {
       <section className="hidden w-full min-h-screen pt-28 px-4 bg-emerald-50 md:flex">
       <img src={ilustration} alt="" className="w-3/5 mx-auto"/>
       </section>
-      <section className="w-full min-h-screen pt-28 px-4">
+      <section className="w-full min-h-screen pt-28 px-4 bg-emerald-50 md:bg-white">
         <form className="text-center shadow border border-gray-200 rounded-2xl w-full max-w-sm p-8 mx-auto" onSubmit={(e) => submit(e)}>
           <h2 className="text-medium text-lg">Selamat Datang</h2>
           <p className="text-normal text-sm text-gray-500 mb-8">Silahkan isi data diri Anda</p>

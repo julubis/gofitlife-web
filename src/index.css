@@ -21,10 +21,10 @@ nav li > a.active {
 }
 
 @keyframes carousel {
-  33% {
+  33.33% {
     transform: translateX(0%);
   }
-  66% {
+  66.66% {
     transform: translateX(-33.33%);
   }
   100% {
@@ -32,10 +32,10 @@ nav li > a.active {
   }
 }
 @keyframes carousel-color {
-  33% {
+  33.33% {
     fill: #34d399;
   }
-  66% {
+  66.66% {
     fill: #fb923c;
   }
   100% {
