@@ -4,10 +4,10 @@ import { Link } from "react-router-dom";
 function Index() {
 
   return (
-    <main className="mt-20 max-w-screen-xl mx-auto px-8">
+    <main className="mt-20 container px-4">
       <Carousel/>
       <section className="flex flex-wrap justify-center gap-6 mt-12 lg:mt-0">
-        <Link className="w-full max-w-sm px-5 py-2.5 rounded-lg shadow-md flex items-center gap-x-2">
+        <Link to="/home" className="w-full max-w-sm px-5 py-2.5 rounded-lg shadow-md flex items-center gap-x-2 bg-white hover:bg-gray-50">
           <div>
             <svg className="w-16 h-16" width="96" height="97" viewBox="0 0 96 97" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M84 8.03916V88.7392C84 92.1892 81.3 94.8892 77.85 94.8892H18.45C15 94.8892 12.3 92.1892 12.3 88.7392V8.03916C12.3 4.58916 15 1.88916 18.45 1.88916H78C81.3 1.88916 84 4.58916 84 8.03916Z" fill="white"/>
@@ -26,7 +26,7 @@ function Index() {
             <p className="text-sm text-gray-600">Penghitung kalori dengan tepat sesuai usia, tinggi badan, berat badan, jenis kelamin, dan aktivitas harian</p>
           </div>
         </Link>
-        <Link className="w-full max-w-sm px-5 py-2.5 rounded-lg shadow-md flex items-center gap-x-2">
+        <Link to="recipe" className="w-full max-w-sm px-5 py-2.5 rounded-lg shadow-md flex items-center gap-x-2 bg-white hover:bg-gray-50">
           <div>
             <svg className="w-16 h-16" width="97" height="97" viewBox="0 0 97 97" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M17.1666 92.0391H8.16663C7.37098 92.0391 6.60791 91.723 6.04531 91.1604C5.4827 90.5978 5.16663 89.8347 5.16663 89.0391V8.03906C5.16663 7.24341 5.4827 6.48035 6.04531 5.91774C6.60791 5.35513 7.37098 5.03906 8.16663 5.03906H17.1666L20.1666 11.0391V86.0391L17.1666 92.0391Z" fill="#E15A64"/>
@@ -43,10 +43,10 @@ function Index() {
           </div>
           <div>
             <h4 className="font-medium">Resep Masakan</h4>
-            <p className="text-sm text-gray-600">Penghitung kalori dengan tepat sesuai usia, tinggi badan, berat badan, jenis kelamin, dan aktivitas harian</p>
+            <p className="text-sm text-gray-600">Menyediakan resep makanan sesuai dengan kebutuhan kalori untuk menunjang tubuh yang ideal</p>
           </div>
         </Link>
-        <Link className="w-full max-w-sm px-5 py-2.5 rounded-lg shadow-md flex items-center gap-x-2">
+        <Link to="news" className="w-full max-w-sm px-5 py-2.5 rounded-lg shadow-md flex items-center gap-x-2 bg-white hover:bg-gray-50">
           <div>
             <svg className="w-16 h-16" width="93" height="97" viewBox="0 0 93 97" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M1.59653 1.80225H90.8267V95.2758H1.59653V1.80225Z" fill="#EFEFF0"/>
@@ -72,7 +72,7 @@ function Index() {
           </div>
           <div>
             <h4 className="font-medium">Berita</h4>
-            <p className="text-sm text-gray-600">Penghitung kalori dengan tepat sesuai usia, tinggi badan, berat badan, jenis kelamin, dan aktivitas harian</p>
+            <p className="text-sm text-gray-600">Berita terkini terkait dengan kesehatan, olahraga, diet, dan banyak hal lainnya di bidang kesehatan</p>
           </div>
         </Link>
       </section>

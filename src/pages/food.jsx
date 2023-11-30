@@ -1,6 +1,6 @@
 function Food() {
   return (
-    <main className="mt-20 mx-[5.5%]">
+    <main className="container px-4 mt-20">
       <h1>Food Page</h1>
     </main>
   );

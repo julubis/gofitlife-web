@@ -11,6 +11,9 @@ export default {
         sans: ['Poppins', ...defaultTheme.fontFamily.sans]
       }
     },
+    container: {
+      center: true,
+    },
   },
   plugins: [],
 }

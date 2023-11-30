@@ -1,7 +1,7 @@
 function Home() {
 
   return (
-    <main className="max-w-screen-xl mx-auto px-4 mt-20">
+    <main className="container px-4 mt-20">
       <section className="w-full grid grid-cols-1 md:grid-cols-2 relavite">
         <div className="text-center m-auto py-8">
           <h2 className="font-bold text-4xl md:text-5xl">KALORI<br/><span className="text-emerald-400">KALKULATOR</span></h2>

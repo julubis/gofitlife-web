@@ -64,7 +64,7 @@ function Recipe() {
   }, []);
 
   return (
-    <main className="max-w-screen-xl mx-auto px-4 mt-20">
+    <main className="container px-4 mt-20">
       <div className="w-full inline-flex py-4 px-0 justify-start align-start">
         <Link className="py-0 px-1 flex justify-center items-center text-emerald-400 hover:text-emerald-500" to="/home">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4 mr-1">

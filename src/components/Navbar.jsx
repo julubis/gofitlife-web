@@ -16,7 +16,7 @@ function Navbar({user}) {
   return (
     <>
       <nav className="bg-white fixed w-full z-20 top-0 start-0 backdrop-filter backdrop-blur-lg bg-opacity-80">
-        <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+        <div className="container flex flex-wrap items-center justify-between p-4">
           <Link to="/" className="flex items-center space-x-3 my-1">
             <img src="/icons/icon_x48.webp" className="h-8 w-8" alt="GoFitLife Logo"/>
             <span className="self-center text-2xl font-semibold whitespace-nowrap">GoFitLife</span>
