@@ -10,6 +10,9 @@
 nav li > a.active {
   @apply bg-emerald-400 rounded hover:bg-emerald-400 md:bg-transparent md:hover:bg-transparent md:text-emerald-500
 }
+.overlay {
+  @apply bg-black fixed h-full w-full opacity-40 top-0 bottom-0 left-0 right-0
+}
 
 @tailwind utilities;
 

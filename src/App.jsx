@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 
 import Index from "./pages/index";
 import Navbar from "./components/Navbar"
+import Dashboard from './pages/admin/Dashboard';
 const Home = lazy(() => import('./pages/home'));
 const Recipe = lazy(() => import('./pages/recipe'));
 const Food = lazy(() => import('./pages/food'));
@@ -28,6 +29,8 @@ function App() {
         <Route path='/food' element={<Suspense><Food /></Suspense>}/>
         <Route path='/news' element={<Suspense><News /></Suspense>}/>
         <Route path='/profile' element={<Suspense><Profile /></Suspense>}/>
+
+        <Route path="/admin" element={<Dashboard />}/>
         <Route path='*' element={<Suspense><NotFound /></Suspense>}/>
       </Routes>
     </BrowserRouter>
