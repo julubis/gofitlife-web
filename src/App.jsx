@@ -21,10 +21,9 @@ function App() {
 
   return (
     <BrowserRouter>
-      {/* <Navbar user={user} /> */}
-      <Sidebar/>
+      {user?.role === 'admin' ? <Sidebar/> : <Navbar user={user} />}
       <Routes>
-        <Route path='/' element={<Index/>}/>
+        <Route path='/' element={user?.role === 'admin' ? <Dashboard/> : <Index/>}/>
         <Route path='/welcome' element={<Suspense><Welcome /></Suspense>}/>
         <Route path='/login' element={<Suspense><Login /></Suspense>}/>
         <Route path='/register' element={<Suspense><Register /></Suspense>}/>
@@ -33,8 +32,6 @@ function App() {
         <Route path='/food' element={<Suspense><Food /></Suspense>}/>
         <Route path='/news' element={<Suspense><News /></Suspense>}/>
         <Route path='/profile' element={<Suspense><Profile /></Suspense>}/>
-
-        <Route path="/admin" element={<Dashboard />}/>
         <Route path='*' element={<Suspense><NotFound /></Suspense>}/>
       </Routes>
     </BrowserRouter>
