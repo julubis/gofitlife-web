@@ -11,7 +11,7 @@ function Navbar({user}) {
   const dispacth = useDispatch();
   const { pathname } = useLocation();
   const { refs, floatingStyles } = useFloating({placement: 'bottom-end'});
-  const hidden = pathname.startsWith('/login') || pathname.startsWith('/register')
+  const hidden = pathname.startsWith('/login') || pathname.startsWith('/register') || pathname.startsWith('/welcome')
 
   return (
     <>
@@ -44,9 +44,9 @@ function Navbar({user}) {
               <li>
                 <NavLink to="/recipe" className="block py-2 px-3 text-gray-900 rounded hover:bg-emerald-100 md:hover:bg-transparent md:hover:text-emerald-500 md:p-0">Resep</NavLink>
               </li>
-              <li>
+              {/* <li>
                 <NavLink to="/food" className="block py-2 px-3 text-gray-900 rounded hover:bg-emerald-100 md:hover:bg-transparent md:hover:text-emerald-500 md:p-0">Pangan</NavLink>
-              </li>
+              </li> */}
               <li>
                 <NavLink to="/news" className="block py-2 px-3 text-gray-900 rounded hover:bg-emerald-100 md:hover:bg-transparent md:hover:text-emerald-500 md:p-0">Berita</NavLink>
               </li>

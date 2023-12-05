@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 
 import Index from "./pages/index";
 import Navbar from "./components/Navbar"
+import Sidebar from "./components/Sidebar"
 import Dashboard from './pages/admin/Dashboard';
 const Home = lazy(() => import('./pages/home'));
 const Recipe = lazy(() => import('./pages/recipe'));
@@ -13,15 +14,18 @@ const Login = lazy(() => import('./pages/login'));
 const Register = lazy(() => import('./pages/register'));
 const NotFound = lazy(() => import('./pages/404'));
 const Profile = lazy(() => import('./pages/profile'));
+const Welcome = lazy(() => import('./pages/welcome'))
 
 function App() {
   const user = useSelector(state => state.auth.user);
 
   return (
     <BrowserRouter>
-      <Navbar user={user} />
+      {/* <Navbar user={user} /> */}
+      <Sidebar/>
       <Routes>
         <Route path='/' element={<Index/>}/>
+        <Route path='/welcome' element={<Suspense><Welcome /></Suspense>}/>
         <Route path='/login' element={<Suspense><Login /></Suspense>}/>
         <Route path='/register' element={<Suspense><Register /></Suspense>}/>
         <Route path='/home' element={<Suspense><Home /></Suspense>}/>

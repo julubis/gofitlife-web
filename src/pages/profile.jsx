@@ -69,7 +69,6 @@ function Profile() {
                 <img src={image} alt="" className="w-56 h-56 rounded-lg mx-auto"/>
                 <input type="file" id="photo-profile" name="image" accept="image/*" className="hidden" onChange={(e) => {
                   const [file] = e.currentTarget.files;
-                  setImage('');
                   if (file) setImage(URL.createObjectURL(file));
                 }}/>
                 <label htmlFor="photo-profile" className="px-5 py-2.5 text-center bg-emerald-400 hover:bg-emerald-500 rounded-lg w-full font-medium">Ganti Foto</label>
