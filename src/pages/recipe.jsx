@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 // import data from '../data/recipes'
 
-function Card({id, name, photo, energy, duration, loading}) {
+function Card({id, name, photo, energy, duration}) {
   const card = (
     <Link to={`/recipe/${id}`} className="w-full rounded-lg mb-4 shadow hover:bg-gray-50">
       <img src={ `https://prw8fl-5000.csb.app/api/images/${photo}` } alt="image" className="w-full rounded-t-lg bg-gray-200 aspect-video object-cover" />
@@ -46,10 +46,6 @@ function Card({id, name, photo, energy, duration, loading}) {
   return name ? card : skeleton;
 }
 
-// function CardList({loading, recipes}) {
-//   { loading ? {  } }
-// }
-
 function Recipe() {
   const [name, setName] = useState('');
   const [category, setCategory] = useState('');
@@ -72,24 +68,28 @@ function Recipe() {
       setRecipes(prev => [...prev, ...responseJson.data.recipes]);
       setPage(prev => prev + 1);
     } catch (e) {
+      setRecipes(prev => prev.filter(r => r.name));
       console.error(e)
     } finally {
       setLoading(false)
     }
   }
 
-  const handleScroll = async () => {
+  const handleScroll = () => {
     if ((window.innerHeight + document.documentElement.scrollTop === document.documentElement.offsetHeight) && !loading) {
-      await fetchData();
+      fetchData();
     }
   }
 
   useEffect(() => {
     if (page === 1 && !loading) fetchData();
-    console.log('effect', page)
     window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [loading]);
+    document.body.addEventListener('touchmove', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      document.body.addEventListener('touchmove', handleScroll);
+    };
+  }, [loading, name, category]);
 
   return (
     <main className="container px-4 mt-20">
@@ -110,21 +110,22 @@ function Recipe() {
       </div>
       
 
-      <div className="search-box w-full flex justify-center">
-        <button className="p-2.5 text-gray-800 text-sm lg:hidden hover:text-black" onClick={() => setShowFilter(true)}>
+      <form className="w-full flex justify-center" onSubmit={
+        (ev) => {
+          ev.preventDefault()
+          const { search } = Object.fromEntries(new FormData(ev.currentTarget));
+          setRecipes([]);
+          setPage(1);
+          setName(search.trim());
+        }
+      }>
+        <button type="button" className="p-2.5 text-gray-800 text-sm lg:hidden hover:text-black" onClick={() => setShowFilter(true)}>
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
             <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75" />
           </svg>
         </button>
-        <input id="input-search" className="p-2.5 w-full max-w-xs rounded-lg text-sm border-2 border-emerald-300 hover:border-emerald-400 focus:outline-none focus:bg-white" type="text" placeholder="Cari resep masakan" onChange={(e) => {
-          // setLoading(true)
-          // setTimeout(() => {
-          //   setRecipes(data.filter(recipe => recipe.name.toLowerCase().includes(e.target.value.toLowerCase())))
-          //   setLoading(false)
-          // }, 300);
-          
-        }} />
-      </div>
+        <input name="search" className="p-2.5 w-full max-w-xs rounded-lg text-sm border-2 border-emerald-300 hover:border-emerald-400 focus:outline-none focus:bg-white" type="text" placeholder="Cari resep masakan" />
+      </form>
       <div className="flex mt-4 w-full gap-4">
         <div className="card-container text-center grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 w-full gap-x-3">
           {
@@ -132,19 +133,17 @@ function Recipe() {
           }
           
         </div>
-        <form className={`fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white p-4 rounded-lg border w-72 h-fit lg:block lg:static lg:top-0 lg:left-0 lg:translate-x-0 lg:translate-y-0 z-40 lg:z-0 ${showFilter ? '' : 'hidden'}`} id="form-filter" onSubmit={(e) => {
-          e.preventDefault()
-          // const {category} = Object.fromEntries(new FormData(e.currentTarget));
-          // setLoading(true)
-          // setTimeout(() => {
-          //   setRecipes(data.filter(recipe => recipe.category === category || category === 'all'))
-          //   setLoading(false)
-          //   setShowFilter(false)
-          // }, 300);
+        <form className={`fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white p-4 rounded-lg border w-72 h-fit lg:block lg:static lg:top-0 lg:left-0 lg:translate-x-0 lg:translate-y-0 z-40 lg:z-0 ${showFilter ? '' : 'hidden'}`} onSubmit={(e) => {
+          e.preventDefault();
+          setShowFilter(false);
+          const {category} = Object.fromEntries(new FormData(e.currentTarget));
+          setRecipes([]);
+          setPage(1);
+          setCategory(category);
         }}>
           <h3 className="text-lg mb-4 font-medium">Filter berdasarkan kategori</h3>
           <div className="flex items-center gap-2 mb-2">
-            <input type="radio" name="category" id="all" value="all" className="w-4 h-4 text-emerald-400 bg-gray-100 border-gray-300 focus:ring-emerald-300 cursor-pointer" defaultChecked/>
+            <input type="radio" name="category" id="all" value="" className="w-4 h-4 text-emerald-400 bg-gray-100 border-gray-300 focus:ring-emerald-300 cursor-pointer" defaultChecked/>
             <label htmlFor="all">Semua</label> 
           </div>
           <div className="flex items-center gap-2 mb-2">
@@ -167,7 +166,7 @@ function Recipe() {
         </form>
       </div>
       <div className={`overlay z-30 opacity-40 lg:hidden ${showFilter ? '' : 'hidden'}`} onClick={() => setShowFilter(false)}></div>
-    </main >
+    </main>
   );
 }
 

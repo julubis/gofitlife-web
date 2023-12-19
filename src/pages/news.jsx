@@ -4,12 +4,19 @@ import { Link } from "react-router-dom";
 function NewsList({news}) {
   return (
     <>
-    { news.map((n, id) => <article key={`news-${id}`} className="w-full rounded-lg shadow flex flex-col">
+    { news.map((n, id) => n.title ? <article key={`news-${id}`} className="w-full rounded-lg shadow flex flex-col">
       <img src={n.image?.small} alt="" className="w-full rounded-t-lg bg-gray-200 aspect-video object-cover" />
       <div className="p-4 rounded-lg text-start flex flex-col h-full gap-2">
         <p className="text-sm text-gray-600">{new Intl.DateTimeFormat('id-ID', {month: 'long', day: 'numeric', year: 'numeric'}).format(new Date(n.isoDate))}</p>
         <p className="text-gray-800 font-medium">{ n.title }</p>
         <a href={n.link} target="_blank" rel="noreferrer" className="mt-auto mb-0 w-fit text-sm font-medium px-5 py-2.5 bg-emerald-400 hover:bg-emerald-500 rounded-lg">Baca selengkapnya</a>
+      </div>
+    </article> : <article key={`news-${id}`} className="w-full rounded-lg shadow flex flex-col select-none animate-pulse">
+      <div className="w-full rounded-t-lg bg-gray-200 aspect-video"></div>
+      <div className="p-4 rounded-lg text-start flex flex-col gap-2">
+        <p className="text-sm text-gray-200 bg-gray-200 w-fit">18 Desember 2023</p>
+        <p className="text-gray-200 bg-gray-200 font-medium w-fit">Anak Tersedak Bisa Berujung Bencana, Ini Tips untuk Mencegah dan Mengatasinya</p>
+        <p className="mt-auto mb-0 text-gray-200 text-sm w-fit font-medium px-5 py-2.5 bg-gray-200 rounded-lg">Baca Selengkapnya</p>
       </div>
     </article>) }
     </>
@@ -21,15 +28,19 @@ function NewsPage() {
   const [loading, setLoading] = useState(false);
   const [title, setTitle] = useState(''); 
 
-  const [page, setPage] = useState(1)
-  console.log('render')
+  const [page, setPage] = useState(1);
+  const [totalPage, setTotalPage] = useState(1)
 
   const fetchData = async () => {
+    if (page > totalPage) return
     setLoading(true);
+    setNews(prev => [...prev, {}, {}, {}, {}, {}, {}]);
     try {
       const query = new URLSearchParams(Object.entries({page, pageSize: 6, title}).filter(([, value]) => value !== '')) 
       const response = await fetch(`https://prw8fl-5000.csb.app/api/news?${query}`);
       const data = await response.json();
+      setTotalPage(data.data.totalPage)
+      setNews(prev => prev.filter(r => r.title));
       setNews(prev => [...prev, ...data.data.news]);
       setPage(prev => prev + 1)
     } catch (e) {
@@ -39,18 +50,21 @@ function NewsPage() {
     }
   }
 
-  const handleScroll = async () => {
+  const handleScroll = () => {
     if ((window.innerHeight + document.documentElement.scrollTop === document.documentElement.offsetHeight) && !loading) {
-      await fetchData();
+      fetchData();
     }
   }
 
   useEffect(() => {
     if (page === 1 && !loading) fetchData();
-    console.log('effect', page)
     window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  },[loading]);
+    document.body.addEventListener('touchmove', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      document.body.removeEventListener('touchmove', handleScroll)
+    };
+  },[loading, title]);
 
   return (
     <main className="container px-4 mt-20 min-h-screen">
@@ -73,9 +87,10 @@ function NewsPage() {
 
       <form className="search-box w-full flex justify-center" onSubmit={async (ev) => {
         ev.preventDefault()
-        // setLoading(true)
         const { search } = Object.fromEntries(new FormData(ev.currentTarget));
-        setTitle(search.trim())
+        setNews([]);
+        setPage(1);
+        setTitle(search.trim());
       }}>
         <input className="p-2.5 w-full max-w-xs rounded-lg text-sm border-2 border-emerald-300 hover:border-emerald-400 focus:outline-none focus:bg-white" type="text" name="search" placeholder="Cari berita" />
       </form>
