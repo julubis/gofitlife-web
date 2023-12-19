@@ -3,6 +3,7 @@ import { useFloating } from "@floating-ui/react"
 import { Link, NavLink } from "react-router-dom";
 
 function Sidebar() {
+    const dispacth = useDispatch();
     const [open, setOpen] = useState(false)
     const [openFloat, setOpenFloat] = useState(false);
     const { refs, floatingStyles } = useFloating({placement: 'bottom-end'});

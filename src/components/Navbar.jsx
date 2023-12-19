@@ -1,17 +1,32 @@
-import { useState } from "react";
-import { useFloating } from "@floating-ui/react"
+import { useState, useRef, useEffect } from "react";
+import { useFloating } from "@floating-ui/react";
 import { useDispatch } from "react-redux";
 import { removeToken } from "../data/auth";
 import { Link, NavLink, useLocation } from "react-router-dom";
 
 function Navbar({user}) {
+  const navbar = useRef()
+  const navbarBtn = useRef()
   const [openNav, setOpenNav] = useState(false);
   const [openFloat, setOpenFloat] = useState(false);
 
   const dispacth = useDispatch();
   const { pathname } = useLocation();
   const { refs, floatingStyles } = useFloating({placement: 'bottom-end'});
-  const hidden = pathname.startsWith('/login') || pathname.startsWith('/register') || pathname.startsWith('/welcome')
+  const hidden = ['/login', '/register', '/welcome'].includes(pathname);
+
+  // useEffect(() => {
+  //   window.addEventListener('click', (ev) => {
+  //     ev.stopPropagation()
+      // console.log(typeof ev.target)
+      // console.log(typeof navbar.current)
+      // console.log(typeof .current)
+      // if (ev.target === navbar.current || ev.target !== navbarBtn.current) {
+        // setOpenNav(false)
+  //     }
+      
+  //   })
+  // }, [])
 
   return (
     <>
@@ -30,13 +45,13 @@ function Navbar({user}) {
                 <button className="text-start flex px-4 py-2 items-center gap-x-2 hover:bg-emerald-100 rounded-md" onClick={() => dispacth(removeToken())}><svg xmlns="http://www.w3.org/2000/svg" className="w-3 h-3" viewBox="0 0 24 24"><path d="M3,3H8V0H3A3,3,0,0,0,0,3V21a3,3,0,0,0,3,3H8V21H3Z"/><path d="M22.948,9.525,18.362,4.939,16.241,7.061l3.413,3.412L5,10.5,5,13.5l14.7-.027-3.466,3.466,2.121,2.122,4.587-4.586A3.506,3.506,0,0,0,22.948,9.525Z"/></svg>Keluar</button>
               </div> : '' }
             </div> }
-            <button data-collapse-toggle="navbar-sticky" type="button" className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200" aria-label="Open Navbar" onClick={() => setOpenNav(nav => !nav)}>
+            <button data-collapse-toggle="navbar-sticky" type="button" className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200" aria-label="Open Navbar" onClick={() => setOpenNav(nav => !nav)} ref={navbarBtn}>
               <svg className="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
                 <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 1h15M1 7h15M1 13h15"/>
               </svg>
             </button>
           </div>
-          <div className={`items-center justify-between w-full md:w-auto md:order-1 ${ hidden ? 'md:hidden' : 'md:flex' } ${ openNav ? '' : 'hidden' }`}>
+          <div className={`items-center justify-between w-full md:w-auto md:order-1 ${ hidden ? 'md:hidden' : 'md:flex' } ${ openNav ? '' : 'hidden' }`} ref={navbar}>
             <ul className="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-transparent">
               <li>
                 <NavLink to="/home" className="block py-2 px-3 text-gray-900 rounded hover:bg-emerald-100 md:hover:bg-transparent md:hover:text-emerald-500 md:p-0">Beranda</NavLink>
@@ -54,7 +69,7 @@ function Navbar({user}) {
           </div>
         </div>
       </nav>
-      <div className={`overlay z-10 opacity-0 ${openNav || openFloat ? '' : 'hidden'}`}  onClick={() => {setOpenNav(false);setOpenFloat(false)}}></div>
+      {/* <div className={`overlay z-10 opacity-0 ${openNav || openFloat ? '' : 'hidden'}`}  onClick={() => {setOpenNav(false);setOpenFloat(false)}}></div> */}
     </>
   
   );

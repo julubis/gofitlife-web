@@ -1,17 +1,5 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
-
-async function getNews(title, page=1) {
-  try {
-    const params = { page };
-    if (title) params.title = title;
-    const response = await axios.get('/news?pageSize=50', { params });
-    return response.data
-  } catch(e) {
-    return []
-  }
-}
 
 function NewsList({news}) {
   return (
@@ -28,19 +16,36 @@ function NewsList({news}) {
   )
 }
 
-function News() {
-  
+function NewsPage() {
   const [news, setNews] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
+
+  const [page, setPage] = useState(1)
+
+  const fetchData = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch(`https://prw8fl-5000.csb.app/api/news?page=${page}&pageSize=6`);
+      const data = await response.json();
+      setNews(prev => [...prev, ...data.data.news]);
+    } catch (e) {
+      console.error(e)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const handleScroll = () => {
+    if ((window.innerHeight + document.documentElement.scrollTop === document.documentElement.offsetHeight) && !loading) {
+      setPage(prev => prev + 1)
+    }
+  }
 
   useEffect(() => {
-    getNews()
-      .then(n => {
-        setNews(n.data.news)
-        setLoading(false)
-      })
-      .catch((e) => alert(e))
-  }, []);
+    fetchData();
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  },[page]);
 
   return (
     <main className="container px-4 mt-20 min-h-screen">
@@ -64,19 +69,18 @@ function News() {
       <div className="search-box w-full flex justify-center">
         <input id="input-search" className="p-2.5 w-full max-w-xs rounded-lg text-sm border-2 border-emerald-300 hover:border-emerald-400 focus:outline-none focus:bg-white" type="text" placeholder="Cari berita" onChange={() => {
           // setLoading(true)
-          setTimeout(() => {
+          // setTimeout(() => {
             // setRecipes(data.filter(recipe => recipe.name.toLowerCase().includes(e.target.value.toLowerCase())))
             // setLoading(false)
-          }, 300);
+          // }, 300);
           
         }} />
       </div>
       <div className="mt-8 text-center grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 w-full gap-4">
-          <NewsList news={news}/>
-          {/* {JSON.stringify(news)} */}
-        </div>
+        <NewsList news={news}/>
+      </div>
     </main >
   );
 }
 
-export default News;
+export default NewsPage;

@@ -18,7 +18,6 @@ const Welcome = lazy(() => import('./pages/welcome'))
 
 function App() {
   const user = useSelector(state => state.auth.user);
-
   return (
     <BrowserRouter>
       {user?.role === 'admin' ? <Sidebar/> : <Navbar user={user} />}
