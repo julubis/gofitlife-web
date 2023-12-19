@@ -88,7 +88,10 @@ function Calculator() {
           <h2 className="font-medium text-xl">Tingkat Aktivitas</h2>
           <p className="text-gray-600 text-sm"><span className="font-medium text-gray-900">{activity.key[profiles.activityLevel - 1]}: </span>{activity.value[profiles.activityLevel-1]}</p>
           <div className="px-[10%]">
-            <input type="range" name="activity_level" defaultValue={profiles.activityLevel} min={1} max={5} step={1} className="w-full h-2 accent-emerald-400 bg-gray-200 rounded-lg appearance-none cursor-pointer" onChange={(e) => setProfiles(prev => ({...prev, activityLevel: e.currentTarget.value}))} />
+            <input type="range" name="activity_level" defaultValue={profiles.activityLevel} min={1} max={5} step={1} className="w-full h-2 accent-emerald-400 bg-gray-200 rounded-lg appearance-none cursor-pointer" onChange={(e) => {
+              const value = e.currentTarget?.value
+              if (value) return setProfiles(prev => ({...prev, activityLevel: value}))
+            }} />
           </div>
           <div className="grid grid-cols-5 text-center text-sm mb-4">
             <span>Sangat<br />Rendah</span>

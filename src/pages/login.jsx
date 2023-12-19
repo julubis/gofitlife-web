@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
@@ -10,17 +9,27 @@ function Login() {
   const [loading, setLoading] = useState(false)
   const { name } = useSelector(state => state.auth.user);
   if (name) return <Navigate to="/"/>
+  
   const submit = async(e) => {
     setLoading(true);
 
     try {
       e.preventDefault();
       const { email, password } = Object.fromEntries(new FormData(e.currentTarget));
-      const response = await axios.post('/auth/login', { email, password });
-      dispacth(setToken(response.data.data.token))
+      const response = await fetch('https://prw8fl-5000.csb.app/api/auth/login', {
+        method: 'POST',
+        body: JSON.stringify({email, password}),
+        headers: {
+          "content-type": "application/json"
+        }
+      })
+      if (!response.ok) throw response
+      const responseJson = await response.json()
+      alert(JSON.stringify(responseJson))
+      dispacth(setToken(responseJson.data.token))
     } catch(e) {
-      if (e.response.status === 401) return alert('email atau password salah')
-      alert('Network error')
+      if (e.status < 500) return alert('email atau password salah')
+      alert(JSON.stringify(e))
     } finally {
       setLoading(false);
     }

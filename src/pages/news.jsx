@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 function NewsList({news}) {
   return (
     <>
-    { news.map(n => <article key={n.id} className="w-full rounded-lg shadow flex flex-col">
+    { news.map((n, id) => <article key={`news-${id}`} className="w-full rounded-lg shadow flex flex-col">
       <img src={n.image?.small} alt="" className="w-full rounded-t-lg bg-gray-200 aspect-video object-cover" />
       <div className="p-4 rounded-lg text-start flex flex-col h-full gap-2">
         <p className="text-sm text-gray-600">{new Intl.DateTimeFormat('id-ID', {month: 'long', day: 'numeric', year: 'numeric'}).format(new Date(n.isoDate))}</p>
@@ -19,15 +19,19 @@ function NewsList({news}) {
 function NewsPage() {
   const [news, setNews] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [title, setTitle] = useState(''); 
 
   const [page, setPage] = useState(1)
+  console.log('render')
 
   const fetchData = async () => {
     setLoading(true);
     try {
-      const response = await fetch(`https://prw8fl-5000.csb.app/api/news?page=${page}&pageSize=6`);
+      const query = new URLSearchParams(Object.entries({page, pageSize: 6, title}).filter(([, value]) => value !== '')) 
+      const response = await fetch(`https://prw8fl-5000.csb.app/api/news?${query}`);
       const data = await response.json();
       setNews(prev => [...prev, ...data.data.news]);
+      setPage(prev => prev + 1)
     } catch (e) {
       console.error(e)
     } finally {
@@ -35,17 +39,18 @@ function NewsPage() {
     }
   }
 
-  const handleScroll = () => {
+  const handleScroll = async () => {
     if ((window.innerHeight + document.documentElement.scrollTop === document.documentElement.offsetHeight) && !loading) {
-      setPage(prev => prev + 1)
+      await fetchData();
     }
   }
 
   useEffect(() => {
-    fetchData();
+    if (page === 1 && !loading) fetchData();
+    console.log('effect', page)
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  },[page]);
+  },[loading]);
 
   return (
     <main className="container px-4 mt-20 min-h-screen">
@@ -66,16 +71,14 @@ function NewsPage() {
       </div>
       
 
-      <div className="search-box w-full flex justify-center">
-        <input id="input-search" className="p-2.5 w-full max-w-xs rounded-lg text-sm border-2 border-emerald-300 hover:border-emerald-400 focus:outline-none focus:bg-white" type="text" placeholder="Cari berita" onChange={() => {
-          // setLoading(true)
-          // setTimeout(() => {
-            // setRecipes(data.filter(recipe => recipe.name.toLowerCase().includes(e.target.value.toLowerCase())))
-            // setLoading(false)
-          // }, 300);
-          
-        }} />
-      </div>
+      <form className="search-box w-full flex justify-center" onSubmit={async (ev) => {
+        ev.preventDefault()
+        // setLoading(true)
+        const { search } = Object.fromEntries(new FormData(ev.currentTarget));
+        setTitle(search.trim())
+      }}>
+        <input className="p-2.5 w-full max-w-xs rounded-lg text-sm border-2 border-emerald-300 hover:border-emerald-400 focus:outline-none focus:bg-white" type="text" name="search" placeholder="Cari berita" />
+      </form>
       <div className="mt-8 text-center grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 w-full gap-4">
         <NewsList news={news}/>
       </div>
