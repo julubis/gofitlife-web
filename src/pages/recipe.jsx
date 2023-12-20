@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
-// import data from '../data/recipes'
 
 function Card({id, name, photo, energy, duration}) {
   const card = (
@@ -53,7 +52,9 @@ function Recipe() {
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [showFilter, setShowFilter] = useState(false);
-  const [totalPage, setTotalPage] = useState(1)
+  const [totalPage, setTotalPage] = useState(1);
+
+  const elementRef = useRef(null);
 
   const fetchData = async () => {
     if (page > totalPage) return
@@ -75,24 +76,24 @@ function Recipe() {
     }
   }
 
-  const handleScroll = () => {
-    if ((window.innerHeight + document.documentElement.scrollTop === document.documentElement.offsetHeight) && !loading) {
+  const handleIntersect = (entries) => {
+    const [first] = entries;
+    if (first.isIntersecting && !loading) {
       fetchData();
     }
   }
 
   useEffect(() => {
-    if (page === 1 && !loading) fetchData();
-    window.addEventListener('scroll', handleScroll);
-    document.body.addEventListener('touchmove', handleScroll);
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-      document.body.addEventListener('touchmove', handleScroll);
-    };
+    const observer = new IntersectionObserver(handleIntersect);
+    if (observer && elementRef.current) {
+      observer.observe(elementRef.current);
+    }
+
+    return () => observer ? observer.disconnect() : undefined;
   }, [loading, name, category]);
 
   return (
-    <main className="container px-4 mt-20">
+    <main className="container px-4 mt-20 min-h-screen">
       <div className="w-full inline-flex py-4 px-0 justify-start align-start">
         <Link className="py-0 px-1 flex justify-center items-center text-emerald-400 hover:text-emerald-500" to="/home">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4 mr-1">
@@ -131,7 +132,7 @@ function Recipe() {
           {
             recipes.map(recipe => <Card key={recipe.id} id={recipe.id} name={recipe.name} photo={recipe.photo} energy={recipe.energy} duration={recipe.duration} loading={loading}/>)
           }
-          
+          <div ref={elementRef}></div>
         </div>
         <form className={`fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white p-4 rounded-lg border w-72 h-fit lg:block lg:static lg:top-0 lg:left-0 lg:translate-x-0 lg:translate-y-0 z-40 lg:z-0 ${showFilter ? '' : 'hidden'}`} onSubmit={(e) => {
           e.preventDefault();

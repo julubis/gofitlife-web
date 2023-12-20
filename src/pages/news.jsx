@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
 
 function NewsList({news}) {
@@ -29,7 +29,9 @@ function NewsPage() {
   const [title, setTitle] = useState(''); 
 
   const [page, setPage] = useState(1);
-  const [totalPage, setTotalPage] = useState(1)
+  const [totalPage, setTotalPage] = useState(1);
+
+  const elementRef = useRef(null);
 
   const fetchData = async () => {
     if (page > totalPage) return
@@ -50,20 +52,20 @@ function NewsPage() {
     }
   }
 
-  const handleScroll = () => {
-    if ((window.innerHeight + document.documentElement.scrollTop === document.documentElement.offsetHeight) && !loading) {
+  const handleIntersect = (entries) => {
+    const [first] = entries;
+    if (first.isIntersecting && !loading) {
       fetchData();
     }
   }
 
   useEffect(() => {
-    if (page === 1 && !loading) fetchData();
-    window.addEventListener('scroll', handleScroll);
-    document.body.addEventListener('touchmove', handleScroll);
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-      document.body.removeEventListener('touchmove', handleScroll)
-    };
+    const observer = new IntersectionObserver(handleIntersect);
+    if (observer && elementRef.current) {
+      observer.observe(elementRef.current);
+    }
+
+    return () => observer ? observer.disconnect() : undefined;
   },[loading, title]);
 
   return (
@@ -96,6 +98,7 @@ function NewsPage() {
       </form>
       <div className="mt-8 text-center grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 w-full gap-4">
         <NewsList news={news}/>
+        <div ref={elementRef}></div>
       </div>
     </main >
   );

@@ -23,9 +23,8 @@ function Login() {
           "content-type": "application/json"
         }
       })
-      if (!response.ok) throw response
       const responseJson = await response.json()
-      alert(JSON.stringify(responseJson))
+      if (!response.ok) throw response
       dispacth(setToken(responseJson.data.token))
     } catch(e) {
       if (e.status < 500) return alert('email atau password salah')
@@ -36,7 +35,7 @@ function Login() {
   }
 
   return (
-    <main className="flex">
+    <main className="flex min-h-screen">
       <section className="hidden w-full min-h-screen pt-28 px-4 bg-emerald-50 md:flex">
         <img src={ilustration} alt="" className="w-3/5 mx-auto"/>
       </section>

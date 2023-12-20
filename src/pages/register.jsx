@@ -1,10 +1,6 @@
 import { Link } from "react-router-dom";
 import ilustration from "../assets/ilustration-1.svg"
 
-function page(num) {
-
-}
-
 function submit(e) {
   e.preventDefault();
   const { email, password, name } = Object.fromEntries(new FormData(e.currentTarget));
@@ -14,7 +10,7 @@ function submit(e) {
 function Register() {
 
   return (
-    <main className="flex">
+    <main className="flex min-h-screen">
       <section className="hidden w-full min-h-screen pt-28 px-4 bg-emerald-50 md:flex">
       <img src={ilustration} alt="" className="w-3/5 mx-auto"/>
       </section>
