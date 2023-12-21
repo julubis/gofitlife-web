@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { Link, Navigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { setToken } from "../data/auth";
-import Toast from "../components/Toast";
+import { Navigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setToken, setProfile } from "../data/auth";
+import { setToast } from "../data/toast";
+
 import ilustration1 from "../assets/ilustration-2.svg";
 import ilustration2 from "../assets/ilustration-3.svg";
 import ilustration3 from "../assets/ilustration-4.svg";
@@ -111,9 +112,7 @@ function Page5({activityLevel, setActivityLevel, setPage}) {
 
 function Welcome() {
   const dispacth = useDispatch()
-  const [loading, setLoading] = useState(false)
   const [page, setPage] = useState(1)
-  // const [toast, setToast] = useState({})
 
   const [gender, setGender] = useState('male');
   const [birthday, setBirthday] = useState('');
@@ -121,12 +120,44 @@ function Welcome() {
   const [height, setHeight] = useState('');
   const [activityLevel, setActivityLevel] = useState(1);
 
-  const { name } = useSelector(state => state.auth.user);
-  if (name) return <Navigate to="/"/>
+  const token = localStorage.getItem('gfl');
+  if (!token) return <Navigate to="/"/>
+
+  const submit = async () => {
+    try {
+      let response = await fetch('https://prw8fl-5000.csb.app/api/profile', {
+        method: 'POST',
+        data: JSON.stringify({gender, birthday: new Date(birthday).toISOString(), weight, height, activity_level: activityLevel}),
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "content-type": "application/json"
+          }
+        });
+      await response.json();
+      if (!response.ok) {
+        dispacth(setToast({type: 1, message: 'Gagal membuat profil'}))
+        return
+      }
+      response = await fetch('https://prw8fl-5000.csb.app/api/profile', {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      const responseJson = await response.json();
+      if (responseJson.status === 'error') {
+        dispacth(setToast({type: 1, message: 'Gagal membuat profil'}))
+      }
+      localStorage.removeItem('gfl')
+      dispacth(setToast({type: 0, message: 'Berhasil membuat profil'}))
+      dispacth(setToken(token));
+      dispacth(setProfile(responseJson.data));
+    } catch {
+      dispacth(setToast({type: 1, message: 'Server error'}))
+    }
+  }
 
   return (
     <main className="flex">
-      {/* <Toast type={toast.type} message={toast.message}/> */}
       <section className="hidden w-full min-h-screen pt-28 px-4 bg-emerald-50 md:flex">
         <img src={
           page === 1 ? ilustration1 : 
@@ -140,7 +171,9 @@ function Welcome() {
         <form className="bg-white text-center my-auto shadow border border-gray-200 rounded-2xl w-full max-w-sm p-8 mx-auto" onSubmit={(e) => {
           e.preventDefault()
           setPage(page => page < 5 ? page+1 : 5)
-          // setToast({type: 1, message: 'Hallo'+Date.now()})
+          if (page === 5) {
+            submit()
+          }
         }}>
           {page === 1 ? <Page1 gender={gender} setGender={setGender}/> :
             page === 2 ? <Page2 birthday={birthday} setBirthday={setBirthday} setPage={setPage}/> :

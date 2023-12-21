@@ -9,6 +9,8 @@ import Sidebar from "./components/Sidebar"
 import Footer from './components/footer';
 import Dashboard from './pages/admin/Dashboard';
 import ScrollToTop from './components/ScrollToTop';
+import Toast from './components/Toast';
+
 const Home = lazy(() => import('./pages/home'));
 const Recipe = lazy(() => import('./pages/recipe'));
 const RecipeDetail = lazy(() => import('./pages/recipeDetail'))
@@ -40,9 +42,10 @@ function App() {
     <BrowserRouter>
       <ScrollToTop/>
       {user?.role === 'admin' ? <Sidebar/> : <Navbar user={user} />}
+      <Toast />
       <Routes>
         <Route path='/' element={user?.role === 'admin' ? <Dashboard/> : <Index/>} />
-        <Route path='/welcome' element={<Suspense  fallback={<main className='min-h-screen'></main>}><Welcome /></Suspense>} />
+        <Route path='/welcome' element={<Suspense  fallback={<main className='mt-20 min-h-screen'></main>}><Welcome /></Suspense>} />
         <Route path='/login' element={<Suspense fallback={<main className='min-h-screen'></main>}><Login /></Suspense>} />
         <Route path='/register' element={<Suspense fallback={<main className='min-h-screen'></main>}><Register /></Suspense>} />
         <Route path='/home' element={<Suspense fallback={<div className='mt-20 min-h-screen'></div>}><Home /></Suspense>} />

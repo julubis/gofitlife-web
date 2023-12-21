@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { setProfile } from "../data/auth";
+import { setProfile, setToken } from "../data/auth";
+import { setToast } from "../data/toast";
 import ilustration from "../assets/ilustration-0.svg"
 
 function Login() {
@@ -23,22 +24,31 @@ function Login() {
           "content-type": "application/json"
         }
       })
-      if (!response.ok) throw response;
       let responseJson = await response.json();
+      if (response.status === 404) {
+        dispacth(setToast({type: 1, message: 'Email tidak terdaftar'}))
+        return
+      } 
+      if (response.status === 401) {
+        dispacth(setToast({type: 1, message: 'Email atau kata sandi salah'}))
+        return
+      }
       const { token } = responseJson.data;
-
       response = await fetch('https://prw8fl-5000.csb.app/api/profile', {
         headers: {
           Authorization: `Bearer ${token}`
         }
       });
-      dispacth(setToken(token));
       responseJson = await response.json();
-
+      if (responseJson.status === 'error') {
+        localStorage.setItem('gfl', token)
+        return <Navigate to="/welcome"/>
+      }
+      dispacth(setToast({type: 0, message: 'Berhasil masuk'}))
+      dispacth(setToken(token));
       dispacth(setProfile(responseJson.data));
     } catch(e) {
-      if (e.status < 500) return alert('email atau password salah')
-      
+      dispacth(setToast({type: 1, message: 'Server error'}))
     } finally {
       setLoading(false);
     }

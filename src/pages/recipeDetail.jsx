@@ -85,7 +85,7 @@ function RecipeDetail() {
         </div>
       </div>
 
-      <b className="mt-4">Resep Lainnya</b>
+      {/* <b className="mt-4">Resep Lainnya</b>
       
       <div className={`flex mt-4 gap-5 ${loading ? 'hidden': ''}`}>
         <div className="card-container text-center w-full">
@@ -148,7 +148,7 @@ function RecipeDetail() {
                 </div>
             </div>
         </div>
-      </div>
+      </div> */}
     </main >
   );
 }

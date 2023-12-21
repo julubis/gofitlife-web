@@ -65,7 +65,7 @@ function Calculator() {
   }
 
   useEffect(() => {
-    if (user) {
+    if (user.age) {
       setTotal(calorie(profiles));
       setSlide(true)
     }
