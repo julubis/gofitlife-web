@@ -4,7 +4,7 @@ import carouselImg3 from '../assets/carousel-image-3.webp';
 
 function Carousel() {
   return (
-    <section className="max-w-screen-xl pt-8 lg:gap-8 xl:gap-0 overflow-hidden">
+    <section className="max-w-screen-xl pt-8 lg:gap-8 xl:gap-0 overflow-hidden mx-auto">
       <div className="relative flex w-[300%]">
         <div className="absolute w-1/3 aspect-[3/2]">
           <svg viewBox="0 0 567 591" xmlns="http://www.w3.org/2000/svg" className="invisible lg:visible carousel-color w-1/2 aspect-[4/3] mr-0 ml-auto fill-emerald-400">
@@ -13,7 +13,7 @@ function Carousel() {
         </div>
         <div className="carousel flex w-[300%]">
           <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-x-4 h-full">
-            <div className="place-self-center text-center sm:max-w-screen-sm lg:text-start">
+            <div className="place-self-center text-center sm:max-w-screen-sm lg:text-start lg:pl-6">
               <h1 className="mb-4 text-4xl font-extrabold tracking-tight leading-none md:text-5xl xl:text-6xl">Temukan resep masakan <span className="text-emerald-400">sehat dan lezat</span></h1>
               <p className="font-light text-gray-500 lg:mb-8 md:text-lg lg:text-xl">Tersedia kategori makanan untuk sarapan, makan siang, dan makan malam</p>
             </div>
@@ -21,7 +21,7 @@ function Carousel() {
             <img src={carouselImg1} alt="image" className="hidden lg:block h-full aspect-[3/2] mt-auto mb-0"/>
           </div>
           <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-4 h-full">
-            <div className="place-self-center text-center sm:max-w-screen-sm lg:text-start">
+            <div className="place-self-center text-center sm:max-w-screen-sm lg:text-start lg:pl-6">
               <h1 className="mb-4 text-4xl font-extrabold tracking-tight leading-none md:text-5xl xl:text-6xl">Hitung kebutuhan asupan <span className="text-orange-400">harian Anda</span></h1>
               <p className="font-light text-gray-500 lg:mb-8 md:text-lg lg:text-xl">Membantu menghitung kalori harian Anda dan mencatat makanan yang dikonsumsi</p>
             </div>
@@ -29,7 +29,7 @@ function Carousel() {
             <img src={carouselImg2} alt="image" className="hidden lg:block w-full aspect-[3/2] mt-auto mb-0"/>
           </div>
           <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-4 h-full">
-            <div className="place-self-center text-center sm:max-w-screen-sm lg:text-start">
+            <div className="place-self-center text-center sm:max-w-screen-sm lg:text-start lg:pl-6">
               <h1 className="mb-4 text-4xl font-extrabold tracking-tight leading-none md:text-5xl xl:text-6xl">Analisa aktivitas olahraga Anda untuk <span className="text-blue-400">mencapai target</span></h1>
               <p className="font-light text-gray-500 lg:mb-8 md:text-lg lg:text-xl">Hitung kalori yang telah terbakar dari aktivitas yang Anda lakukan</p>
             </div>

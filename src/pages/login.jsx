@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { setToken } from "../data/auth";
+import { setProfile } from "../data/auth";
 import ilustration from "../assets/ilustration-0.svg"
 
 function Login() {
@@ -16,26 +16,36 @@ function Login() {
     try {
       e.preventDefault();
       const { email, password } = Object.fromEntries(new FormData(e.currentTarget));
-      const response = await fetch('https://prw8fl-5000.csb.app/api/auth/login', {
+      let response = await fetch('https://prw8fl-5000.csb.app/api/auth/login', {
         method: 'POST',
         body: JSON.stringify({email, password}),
         headers: {
           "content-type": "application/json"
         }
       })
-      const responseJson = await response.json()
-      if (!response.ok) throw response
-      dispacth(setToken(responseJson.data.token))
+      if (!response.ok) throw response;
+      let responseJson = await response.json();
+      const { token } = responseJson.data;
+
+      response = await fetch('https://prw8fl-5000.csb.app/api/profile', {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      dispacth(setToken(token));
+      responseJson = await response.json();
+
+      dispacth(setProfile(responseJson.data));
     } catch(e) {
       if (e.status < 500) return alert('email atau password salah')
-      alert(JSON.stringify(e))
+      
     } finally {
       setLoading(false);
     }
   }
 
   return (
-    <main className="flex min-h-screen">
+    <main className="flex min-h-screen mb-2">
       <section className="hidden w-full min-h-screen pt-28 px-4 bg-emerald-50 md:flex">
         <img src={ilustration} alt="" className="w-3/5 mx-auto"/>
       </section>
@@ -49,7 +59,6 @@ function Login() {
               <svg xmlns="http://www.w3.org/2000/svg" id="Outline" viewBox="0 0 24 24" className="w-5 h-5 absolute -translate-y-1/2 top-1/2 ml-3"><path d="M19,1H5A5.006,5.006,0,0,0,0,6V18a5.006,5.006,0,0,0,5,5H19a5.006,5.006,0,0,0,5-5V6A5.006,5.006,0,0,0,19,1ZM5,3H19a3,3,0,0,1,2.78,1.887l-7.658,7.659a3.007,3.007,0,0,1-4.244,0L2.22,4.887A3,3,0,0,1,5,3ZM19,21H5a3,3,0,0,1-3-3V7.5L8.464,13.96a5.007,5.007,0,0,0,7.072,0L22,7.5V18A3,3,0,0,1,19,21Z"/></svg>
               <input type="email" name="email" id="email-input" className="p-2.5 w-full bg-emerald-50 rounded-lg text-sm border-2 border-emerald-300 hover:bg-white hover:border-emerald-400 focus:outline-none focus:bg-white pl-9" disabled={loading} required/>
             </div>
-            
           </div>
           <div className="flex flex-col text-start mb-2">
             <label htmlFor="password-input" className="text-medium text-sm">Kata Sandi</label>

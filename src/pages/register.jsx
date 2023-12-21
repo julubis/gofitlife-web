@@ -10,7 +10,7 @@ function submit(e) {
 function Register() {
 
   return (
-    <main className="flex min-h-screen">
+    <main className="flex min-h-screen mb-2">
       <section className="hidden w-full min-h-screen pt-28 px-4 bg-emerald-50 md:flex">
       <img src={ilustration} alt="" className="w-3/5 mx-auto"/>
       </section>

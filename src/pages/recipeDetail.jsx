@@ -25,7 +25,7 @@ function RecipeDetail() {
   }, [])
 
   return (
-    <main className="container px-4 mt-20">
+    <main className="container px-4 mt-20 min-h-screen">
       <div className="w-full inline-flex py-4 px-0 justify-start align-start">
         <Link className="py-0 px-1 flex justify-center items-center text-emerald-400 hover:text-emerald-500" to="/home">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4 mr-1">
@@ -48,59 +48,35 @@ function RecipeDetail() {
         </div>
       </div>
       
-      <div className="flex mt-4 gap-20">
-        <div className="card-container text-center w-full">
+      <div className={`flex mt-4 lg:gap-8 flex-col lg:flex-row ${loading ? 'hidden': ''}`}>
+        <div className="text-center w-full">
             <img src={`https://prw8fl-5000.csb.app/api/images/${detail.photo}`} alt="image" className="w-full rounded-xl bg-gray-200 aspect-video object-cover" />    
-            <div className="rounded-lg mt-4 mb-4 shadow">
+            {/* <div className="rounded-lg mt-4 mb-4 shadow">
                 <div className="rounded-t-lg bg-white p-3">kalori Karbo Lemak Protein</div> 
-            </div> 
+            </div>  */}
         </div>
-        <div className="w-full rounded-xl mb-4 shadow-lg p-3">
+        <div className="w-full rounded-xl mb-4 shadow-lg p-3 border border-gray-200">
             <div className="p-4">
                 <h3 className="font-medium text-2xl">{ detail.name }</h3>
             </div>
-            <div className="ms-4">
-                <div className="float-left bg-teal-100 p-2 rounded-2xl">5 Porsi</div>
-                <div className="float-left ms-4 bg-teal-100 p-2 rounded-2xl">
-                    25 Menit
-                </div>
+            <div className="flex gap-2 ms-4">
+                <span className="px-5 py-1 text-sm rounded-full bg-emerald-50 border border-emerald-200">{detail.serving} Porsi</span>
+                <span className="px-5 py-1 text-sm rounded-full bg-emerald-50 border border-emerald-200">{detail.duration} Menit</span>
             </div>
             <div className="p-4 clear-both">{ detail.description }</div>
             <div className="mt-4 p-4">
-              <h3 className="font-medium text-2xl">Bahan - bahan</h3>
-                <div className="w-full rounded bg-gray-50 p-4 mb-2">
-                    <div className="border-b border-black mb-2">
-                        Telur Sedang
-                        1 barang
-                    </div>
-                    <div className="border-b border-black mb-2">
-                        Ekstrak Vanili
-                        1 st
-                    </div>
-                    <div className="border-b border-black mb-2">
-                        Pisang
-                        154 gram
-                    </div>
-                    <div className="border-b border-black mb-2">
-                        Baking Soda
-                        5 gram
-                    </div>
-                    <div className="border-b border-black mb-2">
-                        Madu
-                        6 gram
-                    </div>
-                    <div className="border-b border-black mb-2">
-                        Oatmeal
-                        100 gram
-                    </div>
-                    <div className="border-b border-black mb-2">
-                        Yoghurt
-                        50 gram
-                    </div>
-                </div>
+              <h3 className="font-medium text-2xl mb-2">Bahan - bahan</h3>
+                <ul className="w-full rounded-lg bg-gray-50 p-6 mb-2">
+                    {detail.ingredients?.map((ingredient, i) => (
+                      <li key={i} className="border-b border-black flex justify-between mb-2">
+                        <p>{ingredient.name}</p>
+                        <p className="text-right">{ingredient.unit}</p>
+                      </li>
+                    ))}
+                </ul>
             </div>
             <div className="p-4 mb-8">
-              <h3 className="font-medium text-2xl">Cara memasak</h3>
+              <h3 className="font-medium text-2xl mb-2">Cara memasak</h3>
               <ol className="list-decimal ml-4">
                 {detail.directions?.map((direction, i) => <li key={`direct-${i}`} className="text-gray-800">{ direction.detail }</li>)}
               </ol>
@@ -108,8 +84,10 @@ function RecipeDetail() {
           {/* </div> */}
         </div>
       </div>
+
       <b className="mt-4">Resep Lainnya</b>
-      <div className="flex mt-4 gap-5">
+      
+      <div className={`flex mt-4 gap-5 ${loading ? 'hidden': ''}`}>
         <div className="card-container text-center w-full">
             <img src="assets\food-1.webp" alt="image" className="w-full rounded-t-lg bg-gray-200 aspect-video object-cover" />    
             <div className="p-4 rounded-b-lg text-start shadow mb-4">

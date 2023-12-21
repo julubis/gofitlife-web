@@ -64,15 +64,14 @@ function Recipe() {
       const query = new URLSearchParams(Object.entries({page, pageSize: 6, name, category}).filter(([, value]) => value !== '')) 
       const response = await fetch(`https://prw8fl-5000.csb.app/api/recipes?${query}`);
       const responseJson = await response.json();
-      setTotalPage(responseJson.data.pageTotal)
+      setTotalPage(responseJson.data.pageTotal);
       setRecipes(prev => prev.filter(r => r.name));
       setRecipes(prev => [...prev, ...responseJson.data.recipes]);
       setPage(prev => prev + 1);
     } catch (e) {
-      setRecipes(prev => prev.filter(r => r.name));
-      console.error(e)
+      console.error(e);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }
 

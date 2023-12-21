@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useSelector } from "react-redux";
 import { calorie } from "../helpers/calorie";
 import Chart from "./Chart";
 import ChartBMI from "./ChartBMI";
@@ -41,14 +42,15 @@ const Counter = ({num}) => {
 
 function Calculator() {
   const [slide, setSlide] = useState(false);
+  const user = useSelector(state => state.auth.user);
 
   const [profiles, setProfiles] = useState({
-    gender: '',
-    age: '',
-    weight: '',
-    height: '',
-    target: '',
-    activityLevel: 1,
+    gender: user.gender || '',
+    age: user.age || '',
+    weight: user.weight || '',
+    height: user.height || '',
+    target: user ? 'maintain' : '',
+    activityLevel: user.activity_level || 1,
   })
 
   const [total, setTotal] = useState(0);
@@ -61,6 +63,13 @@ function Calculator() {
     setTotal(calorie({ weight, height, age, gender, activity_level, target }));
     setProfiles({ gender, age, weight, height, target, activityLevel: activity_level });
   }
+
+  useEffect(() => {
+    if (user) {
+      setTotal(calorie(profiles));
+      setSlide(true)
+    }
+  },[]);
 
   return (
     <section className="w-full grid grid-cols-1 md:grid-cols-2 relative">

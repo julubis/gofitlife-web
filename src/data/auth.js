@@ -5,7 +5,7 @@ let user;
 
 try {
   const token = localStorage.getItem('token');
-  const { name, role } = jwtDecode(token)
+  const { name, role } = jwtDecode(token);
   user = { name, role, token }
 }catch {
   user = {}
@@ -26,8 +26,11 @@ const authSlice = createSlice({
       localStorage.removeItem('token');
       state.user = {};
     },
+    setProfile: (state, action) => {
+      state.user = { ...state.user, ...action.payload };
+    },
   },
 });
 
-export const { setToken, removeToken} = authSlice.actions;
+export const { setToken, setProfile, removeToken} = authSlice.actions;
 export default authSlice.reducer;
